@@ -1,4 +1,4 @@
-package uno.edu.model;
+package uno.edu.plugins;
 
 import java.io.BufferedReader;
 import java.io.IOException;
