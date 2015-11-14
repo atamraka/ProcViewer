@@ -1,4 +1,4 @@
-package uno.edu.model;
+package uno.edu.plugins;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,8 +9,10 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
-public class Tasklist {
+import uno.edu.model.ProcInfo;
 
+public class Tasklist {
+	List<ProcInfo> ProcInfoList=new ArrayList<ProcInfo>(); // array list;
 	Runtime rt = Runtime.getRuntime();
 	int exitVal;
 
@@ -40,9 +42,9 @@ public class Tasklist {
 			// System.out.println("Process exitValue: " + exitVal);
 
 		} catch (Exception e) {
-			
+
 		}
-		// printTaskInfo(taskListInfo);
+		
 		return taskListInfo;
 	}
 
@@ -62,42 +64,43 @@ public class Tasklist {
 			System.out.println(taskListInfo.get(i));
 		}
 	}
-	
 
 	// to check if string can be parsed to integer
-	public boolean isParsable(String s){
+	public boolean isParsable(String s) {
 		boolean parsable = true;
-	    try{
-	        Integer.parseInt(s);
-	    }catch(NumberFormatException e){
-	        parsable = false;
-	    }
-	    return parsable;
+		try {
+			Integer.parseInt(s);
+		} catch (NumberFormatException e) {
+			parsable = false;
+		}
+		return parsable;
 	}
-	
-	
+
 	// to split tokens of info read from tasklist command
-	public int spiltTokens(List<String> taskListInfo) {
-	
+	public List<ProcInfo> spiltTokens(List<String> taskListInfo) {
+
 		// check if list size is greater than 0(i.e. if process info is read)
 		// then execute the loop
 		if (taskListInfo.size() > 0) {
 			for (int i = 0; i < taskListInfo.size(); i++) {
 				StringTokenizer st = new StringTokenizer(taskListInfo.get(i));
 				String p_name = st.nextToken(); // to store process name
-				String p_pid=st.nextToken();
-				// get next token till you find integer (process name could have spaces)
-				while(!isParsable(p_pid)){
-				p_pid=st.nextToken();
+				String p_pid = st.nextToken();
+				// get next token till you find integer (process name could have
+				// spaces)
+				while (!isParsable(p_pid)) {
+					p_pid = st.nextToken();
 				}
 				int pid = Integer.parseInt(p_pid); // to store pid of process
-				get_ppid(pid, p_name); // call function to get ppid and store info
+				get_ppid(pid, p_name); // call function to get ppid and store
+										// info
 			}
-			return 1;
+			
 		} else {
 			System.out.println("Nothing read from tasklist");
-			return 0;
+			
 		}
+		return ProcInfoList;
 	}
 
 	// to get ppid of given pid
@@ -123,11 +126,6 @@ public class Tasklist {
 										// list
 			exitVal = proc_ppid.waitFor();
 		} catch (NoSuchElementException e) {
-			// remove later
-			// e.printStackTrace();
-			// System.out.println(pid+", "+p_name);
-			 //System.out.println("No ppid found");
-			// addInfo(p_name,pid,00);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 			System.out.println("Waiting.....");
@@ -135,19 +133,14 @@ public class Tasklist {
 			e.printStackTrace();
 			System.out.println("Nothing Is Read");
 		}
+		
 	}
 
 	// to add information obtained in a list of objects
-	public List<ProcInfo> addInfo(String p_name, int pid, int ppid) {
-
-		List<ProcInfo> ProcInfoList = new ArrayList<ProcInfo>(); // array list
-																	// to store
-																	// ProcInfo
-																	// object
+	public void addInfo(String p_name, int pid, int ppid) {
 		ProcInfoList.add(new ProcInfo(p_name, pid, ppid)); // add object to list
 															// giving name, pid
 															// and ppid
-		return ProcInfoList;
 	}
 
 }
