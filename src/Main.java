@@ -7,8 +7,9 @@ public class Main {
 	public static void main(String[] args) {
 		Tasklist tasklister = new Tasklist();
 		List<String> tasklistInfo = tasklister.gettasklistInfo();
-		//tasklister.print(tasklistInfo);
-		tasklister.spiltTokens(tasklistInfo);
+		List<ProcInfo> procInfoList = tasklister.spiltTokens(tasklistInfo);
+		Hierarchy hi = new Hierarchy(procInfoList);
+		hi.runMethods();
 	}
 
 }
