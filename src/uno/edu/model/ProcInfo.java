@@ -6,7 +6,7 @@ public class ProcInfo {
 	private int ppid;
 	private String pname;
 
-	protected ProcInfo(String pname_, int pid_, int ppid_) {
+	public ProcInfo(String pname_, int pid_, int ppid_) {
 		this.pid = pid_;
 		this.pname = pname_;
 		this.ppid = ppid_;
