@@ -1,6 +1,6 @@
 import java.util.List;
 
-import uno.edu.model.Tasklist;
+import uno.edu.plugins.Tasklist;
 
 public class Main {
 
