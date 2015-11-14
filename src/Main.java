@@ -1,5 +1,7 @@
 import java.util.List;
 
+import uno.edu.model.ProcInfo;
+import uno.edu.plugins.Hierarchy;
 import uno.edu.plugins.Tasklist;
 
 public class Main {
