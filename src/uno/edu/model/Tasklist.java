@@ -40,8 +40,7 @@ public class Tasklist {
 			// System.out.println("Process exitValue: " + exitVal);
 
 		} catch (Exception e) {
-			// remove later
-			e.printStackTrace();
+			
 		}
 		// printTaskInfo(taskListInfo);
 		return taskListInfo;
@@ -63,20 +62,36 @@ public class Tasklist {
 			System.out.println(taskListInfo.get(i));
 		}
 	}
+	
 
+	// to check if string can be parsed to integer
+	public boolean isParsable(String s){
+		boolean parsable = true;
+	    try{
+	        Integer.parseInt(s);
+	    }catch(NumberFormatException e){
+	        parsable = false;
+	    }
+	    return parsable;
+	}
+	
+	
 	// to split tokens of info read from tasklist command
 	public int spiltTokens(List<String> taskListInfo) {
-
+	
 		// check if list size is greater than 0(i.e. if process info is read)
 		// then execute the loop
 		if (taskListInfo.size() > 0) {
 			for (int i = 0; i < taskListInfo.size(); i++) {
 				StringTokenizer st = new StringTokenizer(taskListInfo.get(i));
 				String p_name = st.nextToken(); // to store process name
-				int pid = Integer.parseInt(st.nextToken()); // to store pid of
-															// process
-				get_ppid(pid, p_name); // call function to get ppid and store
-										// info
+				String p_pid=st.nextToken();
+				// get next token till you find integer (process name could have spaces)
+				while(!isParsable(p_pid)){
+				p_pid=st.nextToken();
+				}
+				int pid = Integer.parseInt(p_pid); // to store pid of process
+				get_ppid(pid, p_name); // call function to get ppid and store info
 			}
 			return 1;
 		} else {
@@ -111,7 +126,7 @@ public class Tasklist {
 			// remove later
 			// e.printStackTrace();
 			// System.out.println(pid+", "+p_name);
-			// System.out.println("No ppid found");
+			 //System.out.println("No ppid found");
 			// addInfo(p_name,pid,00);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -132,8 +147,6 @@ public class Tasklist {
 		ProcInfoList.add(new ProcInfo(p_name, pid, ppid)); // add object to list
 															// giving name, pid
 															// and ppid
-		printProcInfo(ProcInfoList);
-
 		return ProcInfoList;
 	}
 
